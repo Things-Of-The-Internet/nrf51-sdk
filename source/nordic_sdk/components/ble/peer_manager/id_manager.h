@@ -1,32 +1,11 @@
-/*
- * Copyright (c) Nordic Semiconductor ASA
- * All rights reserved.
+/* Copyright (C) 2015 Nordic Semiconductor. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
+ * The information contained herein is property of Nordic Semiconductor ASA.
+ * SEMICONDUCTOR STANDARD SOFTWARE LICENSE AGREEMENT.
  *
- *   1. Redistributions of source code must retain the above copyright notice, this
- *   list of conditions and the following disclaimer.
- *
- *   2. Redistributions in binary form must reproduce the above copyright notice, this
- *   list of conditions and the following disclaimer in the documentation and/or
- *   other materials provided with the distribution.
- *
- *   3. Neither the name of Nordic Semiconductor ASA nor the names of other
- *   contributors to this software may be used to endorse or promote products
- *   derived from this software without specific prior written permission.
- *
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
- * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * Licensees are granted free, non-transferable use of the information. NO
+ * WARRANTY of ANY KIND is provided. This heading must NOT be removed from
+ * the file.
  *
  */
 
@@ -35,7 +14,7 @@
 
 #include "stdint.h"
 #include "sdk_errors.h"
-#include "nrf_ble.h"
+#include "ble.h"
 #include "ble_gap.h"
 #include "peer_manager_types.h"
 
@@ -228,38 +207,6 @@ ret_code_t im_wlist_create(pm_peer_id_t        * p_peer_ids,
  *                NULL.
  */
 bool im_address_resolve(ble_gap_addr_t const * p_addr, ble_gap_irk_t const * p_irk);
-
-/**@brief Function for calculating the ah() hash function described in Bluetooth core specification
- *        4.2 section 3.H.2.2.2.
- *
- * @detail  BLE uses a hash function to calculate the first half of a resolvable address
- *          from the second half of the address and an irk. This function will use the ECB
- *          periferal to hash these data acording to the Bluetooth core specification.
- *
- * @note The ECB expect little endian input and output.
- *       This function expect big endian and will reverse the data as necessary.
- *
- * @param[in]  p_k          The key used in the hash function.
- *                          For address resolution this is should be the irk.
- *                          The array must have a length of 16.
- * @param[in]  p_r          The rand used in the hash function. For generating a new address
- *                          this would be a random number. For resolving a resolvable address
- *                          this would be the last half of the address being resolved.
- *                          The array must have a length of 3.
- * @param[out] p_local_hash The result of the hash operation. For address resolution this
- *                          will match the first half of the address being resolved if and only
- *                          if the irk used in the hash function is the same one used to generate
- *                          the address.
- *                          The array must have a length of 16.
- *
- * @note    ====IMPORTANT====
- *          This is a special modification to the original nRF51 SDK required by the mbed BLE API
- *          to be able to generate BLE private resolvable addresses. This function is used by
- *          the BLE API implementation for nRF5xSecurityManager::getAddressFromBondTable() in the
- *          ble-nrf51822 yotta module.
- *          =================
- */
-void ah(uint8_t const * p_k, uint8_t const * p_r, uint8_t * p_local_hash);
 
 /** @} */
 

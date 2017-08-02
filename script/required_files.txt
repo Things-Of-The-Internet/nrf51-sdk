@@ -51,6 +51,12 @@
 	source/nordic-sdk/components/drivers_nrf/pstorage/config/pstorage_platform.h
 	source/nordic-sdk/components/drivers_nrf/pstorage/pstorage.c
 	source/nordic-sdk/components/drivers_nrf/pstorage/pstorage.h
+	source/nordic-sdk/components/drivers_nrf/hal/nrf_spi.h
+	source/nordic-sdk/components/drivers_nrf/hal/nrf_spim.h
+	source/nordic-sdk/components/drivers_nrf/config/nrf_drv_config_validation.h
+	source/nordic-sdk/components/drivers_nrf/config/nrf_drv_config.h
+	source/nordic-sdk/components/drivers_nrf/spi_master/nrf_drv_spi.c
+	source/nordic-sdk/components/drivers_nrf/spi_master/nrf_drv_spi.h
 	source/nordic-sdk/components/libraries/bootloader_dfu/bootloader.h
 	source/nordic-sdk/components/libraries/bootloader_dfu/bootloader_types.h
 	source/nordic-sdk/components/libraries/bootloader_dfu/bootloader_util.h

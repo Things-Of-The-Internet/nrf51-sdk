@@ -1,32 +1,12 @@
-/*
- * Copyright (c) Nordic Semiconductor ASA
- * All rights reserved.
+/* Copyright (c) 2015 Nordic Semiconductor. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
+ * The information contained herein is property of Nordic Semiconductor ASA.
+ * Terms and conditions of usage are described in detail in NORDIC
+ * SEMICONDUCTOR STANDARD SOFTWARE LICENSE AGREEMENT.
  *
- *   1. Redistributions of source code must retain the above copyright notice, this
- *   list of conditions and the following disclaimer.
- *
- *   2. Redistributions in binary form must reproduce the above copyright notice, this
- *   list of conditions and the following disclaimer in the documentation and/or
- *   other materials provided with the distribution.
- *
- *   3. Neither the name of Nordic Semiconductor ASA nor the names of other
- *   contributors to this software may be used to endorse or promote products
- *   derived from this software without specific prior written permission.
- *
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
- * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * Licensees are granted free, non-transferable use of the information. NO
+ * WARRANTY of ANY KIND is provided. This heading must NOT be removed from
+ * the file.
  *
  */
 
@@ -34,7 +14,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
-#include "nrf_ble.h"
+#include "ble.h"
 #include "sdk_mapped_flags.h"
 #include "app_error.h"
 
@@ -218,15 +198,16 @@ void ble_conn_state_on_ble_evt(ble_evt_t * p_ble_evt)
             }
             else
             {
-#if defined(TARGET_MCU_NRF51_16K_S110) || defined(TARGET_MCU_NRF51_32K_S110)
+#if   defined(S110)
                 bool is_central = false;
-#elif defined(TARGET_MCU_NRF51_16K_S120) || defined(TARGET_MCU_NRF51_32K_S120)
+#elif defined(S120)
                 bool is_central = true;
-#else
+#elif defined(S130) || defined(S132) || defined(S332)
                 bool is_central =
                         (p_ble_evt->evt.gap_evt.params.connected.role == BLE_GAP_ROLE_CENTRAL);
+#else
+                /* BLE SoftDevice missing. */
 #endif
-
                 sdk_mapped_flags_update_by_key(m_bcs.valid_conn_handles,
                                               &m_bcs.flags.central_flags,
                                                p_ble_evt->evt.gap_evt.conn_handle,
@@ -411,4 +392,3 @@ sdk_mapped_flags_t ble_conn_state_user_flag_collection(ble_conn_state_user_flag_
         return 0;
     }
 }
-
